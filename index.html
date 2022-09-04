@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ブランチ名と関連するコマンド</title>
+  <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <h1>ブランチ名と関連するコマンド</h1>
+  <fieldset>
+    <legend>Backlog</legend>
+    <div class="backlog-item">
+      <input type="checkbox" id="parent" name="parent" checked>
+      <label for="parent">親課題あり</label>
+    </div>
+    <div class="backlog-item">
+      <label for="branch-type1">ブランチの種類1: </label>
+      <select name="branch-type1" id="branch-type1">
+        <option value="bugfix" selected>bugfix</option>
+        <option value="feature">feature</option>
+        <option value="hotfix">hotfix</option>
+      </select>
+    </div>
+    <div class="backlog-item">
+      <label for="branch-type2">ブランチの種類2: </label>
+      <select name="branch-type2" id="branch-type2">
+        <option value="CMS_DEFECT" selected>CMS_DEFECT</option>
+        <option value="CMS_RENEW">CMS_RENEW</option>
+      </select>
+    </div>
+    <div id="parent-and-child">
+      <div class="backlog-item">
+        <label for="parent-backlog-number">親課題のBackLogの番号: </label>
+        <input type="number" id="parent-backlog-number" name="parent-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="1000">
+        <a id="parent-backlog-number-link" href="" target="_blank"></a>
+      </div>
+      <div class="backlog-item">
+        <label for="child-backlog-number">子課題のBackLogの番号: </label>
+        <input type="number" id="child-backlog-number" name="child-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="1100">
+        <a id="child-backlog-number-link" href="" target="_blank"></a>
+      </div>
+      <p id="warning" class="backlog-item red" style="display: none;">子課題のBackLogの番号は、通常親課題のBackLogの番号よりも大きくなります。</p>
+    </div>
+    <div id="not-parent-and-child" style="display: none">
+      <div class="backlog-item">
+        <label for="backlog-number">BackLogの番号: </label>
+        <input type="number" id="backlog-number" name="backlog-number" required minlength="4" maxlength="8" size="10" value="1000">
+        <a id="backlog-number-link" href="" target="_blank"></a>
+      </div>
+    </div>
+  </fieldset>
+  <div>
+    <ul>
+      <li><span id="branch-name-part"></span><i class="fas fa-copy"></i></li>
+      <li><span id="branch-name"></span><i class="fas fa-copy"></i></li>
+      <li><span id="checkout"></span><i class="fas fa-copy"></i></li>
+      <li><span id="pull-origin"></span><i class="fas fa-copy"></i></li>
+      <li><span id="push"></span><i class="fas fa-copy"></i></li>
+      <li><span>git pull origin <span class="red">master</span></span><i class="fas fa-copy"></i></li>
+      <li><span>git pull origin <span class="red">staging</span></span><i class="fas fa-copy"></i></li>
+    </ul>
+  </div>
+</body>
+<script>
+  const clipboardCopy = (str) => {
+    const listener = (e) => {
+      e.clipboardData.setData("text/plain" , str);
+      e.preventDefault();
+      document.removeEventListener("copy", listener);
+    }
+    document.addEventListener("copy", listener);
+    document.execCommand("copy");
+  }
+
+  const checkboxElem = document.getElementById('parent')
+  const parentAndChildElem = document.getElementById('parent-and-child')
+  const notParentAndChildElem = document.getElementById('not-parent-and-child')
+  const branchType1Elem = document.getElementById('branch-type1')
+  const branchType2Elem = document.getElementById('branch-type2')
+  const backlogNumberElem = document.getElementById('backlog-number')
+  const parentBacklogNumberElem = document.getElementById('parent-backlog-number')
+  const childBacklogNumberElem = document.getElementById('child-backlog-number')
+  const backlogNumberLinkElem = document.getElementById('backlog-number-link')
+  const parentBacklogNumberLinkElem = document.getElementById('parent-backlog-number-link')
+  const childBacklogNumberLinkElem = document.getElementById('child-backlog-number-link')
+  const branchNamePartElem = document.getElementById('branch-name-part')
+  const branchNameElem = document.getElementById('branch-name')
+  const checkoutElem = document.getElementById('checkout')
+  const pullOriginElem = document.getElementById('pull-origin')
+  const pushElem = document.getElementById('push')
+  const warningElem = document.getElementById('warning')
+
+  const updateBranchName = () => {
+    const branchType1 = branchType1Elem.selectedOptions[0].value
+    const branchType2 = branchType2Elem.selectedOptions[0].value
+    const backlogNumber = backlogNumberElem.value
+    const parentBacklogNumber = parentBacklogNumberElem.value
+    const childBacklogNumber = childBacklogNumberElem.value
+    let branchNamePart
+    let branchName
+    if(checkboxElem.checked) {
+      branchNamePart = branchType2 + '-' + childBacklogNumber
+      branchName = branchType1 + '/<span class="red">#</span>' + branchType2 + '-' + parentBacklogNumber + '/' + branchType1 + '/' + branchNamePart
+    } else {
+      branchNamePart = branchType2 + '-' + backlogNumber
+      branchName = branchType1 + '/' + branchNamePart
+    }
+    branchNamePartElem.innerHTML = branchNamePart
+    branchNameElem.innerHTML = branchName
+    checkoutElem.innerHTML = 'git <span class="red">checkout</span> -b ' + branchName
+    pullOriginElem.innerHTML = 'git <span class="red">pull</span> origin ' + branchName
+    pushElem.innerHTML = 'git <span class="red">push</span> --set-upstream origin ' + branchName
+
+    const prevUrl = 'https://kumukumu.backlog.com/view/'
+    const url = prevUrl + branchType2 + '-' + backlogNumber
+    const parentUrl = prevUrl + branchType2 + '-' + parentBacklogNumber
+    const childUrl = prevUrl + branchType2 + '-' + childBacklogNumber
+    backlogNumberLinkElem.innerHTML = url
+    parentBacklogNumberLinkElem.innerHTML = parentUrl
+    childBacklogNumberLinkElem.innerHTML = childUrl
+    backlogNumberLinkElem.href = url
+    parentBacklogNumberLinkElem.href = parentUrl
+    childBacklogNumberLinkElem.href = childUrl
+
+    if (checkboxElem.checked && childBacklogNumber <= parentBacklogNumber) {
+      warningElem.style.display = 'block'
+    } else {
+      warningElem.style.display = 'none'
+    }
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    updateBranchName()
+    const copyBtns = document.getElementsByClassName('fa-copy')
+    const selectElems = [ branchType1Elem, branchType2Elem ]
+    const numberElems = [ backlogNumberElem, parentBacklogNumberElem, childBacklogNumberElem ]
+    Array.prototype.forEach.call(copyBtns, copyBtn => {
+      copyBtn.addEventListener('click', () => {
+        const targetText = copyBtn.previousElementSibling.innerText
+        clipboardCopy(targetText)
+      })
+    })
+    selectElems.forEach(selectElem => {
+      selectElem.addEventListener('change', () => {
+        updateBranchName()
+      })
+    })
+    numberElems.forEach(numberElem => {
+      numberElem.addEventListener('input', () => {
+        console.log('input')
+        updateBranchName()
+      })
+    })
+  })
+  checkboxElem.addEventListener('change', (event) => {
+    updateBranchName()
+    if (event.target.checked) {
+      parentAndChildElem.style.display = 'block'
+      notParentAndChildElem.style.display = 'none'
+    } else {
+      parentAndChildElem.style.display = 'none'
+      notParentAndChildElem.style.display = 'block'
+    }
+  })
+</script>
+<style lang="css">
+  .backlog-item:not(:last-child) {
+    margin-bottom: 5px;
+  }
+  .fa-copy {
+    margin-left: 5px;
+    cursor: pointer;
+    color: #2875D4;
+  }
+  .red {
+    color: #BC2021;
+  }
+  p#warning {
+    margin: 0;
+  }
+  a {
+    margin-left: 10px;
+  }
+</style>
+</html>
