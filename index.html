@@ -124,7 +124,7 @@
     parentBacklogNumberLinkElem.href = parentUrl
     childBacklogNumberLinkElem.href = childUrl
 
-    if (checkboxElem.checked && childBacklogNumber <= parentBacklogNumber) {
+    if (checkboxElem.checked && Number(childBacklogNumber) <= Number(parentBacklogNumber)) {
       warningElem.style.display = 'block'
     } else {
       warningElem.style.display = 'none'
