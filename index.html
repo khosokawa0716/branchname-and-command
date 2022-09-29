@@ -60,8 +60,8 @@
       <li><span id="checkout"></span><i class="fas fa-copy"></i></li>
       <li><span id="pull-origin"></span><i class="fas fa-copy"></i></li>
       <li><span id="push"></span><i class="fas fa-copy"></i></li>
+      <li><span id="commit"></span><i class="fas fa-copy"></i></li>
       <li><span>git pull origin <span class="red">master</span></span><i class="fas fa-copy"></i></li>
-      <li><span>git pull origin <span class="red">staging</span></span><i class="fas fa-copy"></i></li>
     </ul>
     <h3>その他</h3>
     <ul>
@@ -98,6 +98,7 @@
   const checkoutElem = document.getElementById('checkout')
   const pullOriginElem = document.getElementById('pull-origin')
   const pushElem = document.getElementById('push')
+  const commitElem = document.getElementById('commit')
   const warningElem = document.getElementById('warning')
 
   const updateBranchName = () => {
@@ -119,6 +120,7 @@
     branchNameElem.innerHTML = branchName
     checkoutElem.innerHTML = 'git <span class="red">checkout</span> -b ' + branchName
     pullOriginElem.innerHTML = 'git <span class="red">pull</span> origin ' + branchName
+    commitElem.innerHTML = 'git commit -m "' + branchNamePart + ' hoge"'
     pushElem.innerHTML = 'git <span class="red">push</span> --set-upstream origin ' + branchName
 
     const prevUrl = 'https://kumukumu.backlog.com/view/'
