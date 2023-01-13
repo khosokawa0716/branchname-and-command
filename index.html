@@ -128,9 +128,15 @@
     pushElem.innerHTML = 'git <span class="red">push</span> --set-upstream origin ' + branchName
 
     const prevUrl = 'https://kumukumu.backlog.com/view/'
-    const url = prevUrl + branchType2 + '-' + backlogNumber
-    const parentUrl = prevUrl + branchType2 + '-' + parentBacklogNumber
-    const childUrl = prevUrl + branchType2 + '-' + childBacklogNumber
+    let nextUrl = ''
+    if (branchType2 === 'F2023') {
+      nextUrl = 'FUTURE_DEVELOP_GOALS_2023'
+    } else {
+      nextUrl = branchType2
+    }
+    const url = prevUrl + nextUrl + '-' + backlogNumber
+    const parentUrl = prevUrl + nextUrl + '-' + parentBacklogNumber
+    const childUrl = prevUrl + nextUrl + '-' + childBacklogNumber
     backlogNumberLinkElem.innerHTML = url
     parentBacklogNumberLinkElem.innerHTML = parentUrl
     childBacklogNumberLinkElem.innerHTML = childUrl
