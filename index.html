@@ -18,28 +18,30 @@
     <div class="backlog-item">
       <label for="branch-type1">ブランチの種類1: </label>
       <select name="branch-type1" id="branch-type1">
-        <option value="bugfix" selected>bugfix</option>
-        <option value="feature">feature</option>
+        <option value="feature" selected>feature</option>
+        <option value="bugfix">bugfix</option>
         <option value="hotfix">hotfix</option>
       </select>
     </div>
     <div class="backlog-item">
       <label for="branch-type2">ブランチの種類2: </label>
       <select name="branch-type2" id="branch-type2">
-        <option value="CMS_DEFECT" selected>CMS_DEFECT</option>
-        <option value="CMS_RENEW">CMS_RENEW</option>
+        <option value="FUTURE_DEVELOP_GOALS_2023" selected>FUTURE_DEVELOP_GOALS_2023</option>
+        <option value="CMS_DEFECT">CMS_DEFECT</option>
+        <option value="EC_DEFECT">EC_DEFECT</option>
         <option value="TICKET_DEFECT">TICKET_DEFECT</option>
+        <option value="CMS_RENEW">CMS_RENEW</option>
       </select>
     </div>
     <div id="parent-and-child">
       <div class="backlog-item">
         <label for="parent-backlog-number">親課題のBackLogの番号: </label>
-        <input type="number" id="parent-backlog-number" name="parent-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="1000">
+        <input type="number" id="parent-backlog-number" name="parent-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="100">
         <a id="parent-backlog-number-link" href="" target="_blank"></a>
       </div>
       <div class="backlog-item">
         <label for="child-backlog-number">子課題のBackLogの番号: </label>
-        <input type="number" id="child-backlog-number" name="child-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="1100">
+        <input type="number" id="child-backlog-number" name="child-backlog-number" required min="0" minlength="4" maxlength="8" size="10" value="110">
         <a id="child-backlog-number-link" href="" target="_blank"></a>
       </div>
       <p id="warning" class="backlog-item red" style="display: none;">子課題のBackLogの番号は、通常親課題のBackLogの番号よりも大きくなります。</p>
