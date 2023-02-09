@@ -27,9 +27,14 @@
       <label for="branch-type2">ブランチの種類2: </label>
       <select name="branch-type2" id="branch-type2">
         <option value="F2023" selected>F2023</option>
+        <option value="MKPL">MKPL</option>
+        <option value="QC_FB">QC_FB</option>
         <option value="CMS_DEFECT">CMS_DEFECT</option>
         <option value="EC_DEFECT">EC_DEFECT</option>
         <option value="TICKET_DEFECT">TICKET_DEFECT</option>
+        <option value="HOME_DEFECT">HOME_DEFECT</option>
+        <option value="BEAUTY_DEFECT">BEAUTY_DEFECT</option>
+        <option value="FARM">FARM</option>
         <option value="CMS_RENEW">CMS_RENEW</option>
       </select>
     </div>
@@ -131,6 +136,8 @@
     let nextUrl = ''
     if (branchType2 === 'F2023') {
       nextUrl = 'FUTURE_DEVELOP_GOALS_2023'
+    } else if (branchType2 === 'MKPL') {
+      nextUrl = 'MKPL_MAINTE_DEV'
     } else {
       nextUrl = branchType2
     }
